@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { useState } from 'react';
+import { useCart } from '../context/CartContext';
 
 // Dummy Data
 const categories = [
@@ -73,24 +74,27 @@ const faqs = [
     { q: "Why are your products labeled \"Not for Human Consumption\"?", a: "Our products are strictly intended for laboratory research use only. They are not approved by the FDA for human or animal consumption." }
 ];
 
-const ProductCard = ({ product, isFilled = false }) => (
-    <div className="bg-white rounded-[15px] border border-gray-200 p-4 flex flex-col items-center group relative overflow-hidden transition-all hover:shadow-lg hover:border-[#116190]/30">
-        <div className="w-full aspect-square bg-gradient-to-b from-[#e8eef2] to-[#d9e3ea] rounded-[10px] mb-4 relative flex items-center justify-center overflow-hidden">
-            <img src={product.image} className="w-[75%] h-auto object-contain" alt={product.name} onError={(e) => { e.target.src = 'https://placehold.co/200x200/e8eef2/116190?text=Product'; }} />
+const ProductCard = ({ product, isFilled = false }) => {
+    const { openCart } = useCart();
+    return (
+        <div className="bg-white rounded-[15px] border border-gray-200 p-4 flex flex-col items-center group relative overflow-hidden transition-all hover:shadow-lg hover:border-[#116190]/30">
+            <div className="w-full aspect-square bg-gradient-to-b from-[#e8eef2] to-[#d9e3ea] rounded-[10px] mb-4 relative flex items-center justify-center overflow-hidden">
+                <img src={product.image} className="w-[75%] h-auto object-contain" alt={product.name} onError={(e) => { e.target.src = 'https://placehold.co/200x200/e8eef2/116190?text=Product'; }} />
+            </div>
+            <h3 className="text-[#116190] font-semibold text-[15px] text-center mb-2 font-['Poppins'] leading-tight">{product.name}</h3>
+            <div className="flex items-center gap-2 mb-4">
+                <span className="text-[#08202c] font-bold text-[15px]">{product.price}</span>
+                {product.originalPrice && (
+                    <span className="text-gray-400 text-[13px] line-through">{product.originalPrice}</span>
+                )}
+            </div>
+            <button onClick={openCart} className={`w-full h-[40px] rounded-full font-medium text-[13px] font-['Poppins'] transition-colors flex items-center justify-center gap-2 ${isFilled ? 'bg-[#116190] text-white hover:bg-[#0c4a6e]' : 'border border-[#116190] text-[#116190] hover:bg-[#116190] hover:text-white'}`}>
+                <img src="/assets/add_to_cart.svg" alt="Add to cart" className={`w-4 h-4 ${isFilled ? 'brightness-0 invert' : ''}`} />
+                Add To Cart
+            </button>
         </div>
-        <h3 className="text-[#116190] font-semibold text-[15px] text-center mb-2 font-['Poppins'] leading-tight">{product.name}</h3>
-        <div className="flex items-center gap-2 mb-4">
-            <span className="text-[#08202c] font-bold text-[15px]">{product.price}</span>
-            {product.originalPrice && (
-                <span className="text-gray-400 text-[13px] line-through">{product.originalPrice}</span>
-            )}
-        </div>
-        <button className={`w-full h-[40px] rounded-full font-medium text-[13px] font-['Poppins'] transition-colors flex items-center justify-center gap-2 ${isFilled ? 'bg-[#116190] text-white hover:bg-[#0c4a6e]' : 'border border-[#116190] text-[#116190] hover:bg-[#116190] hover:text-white'}`}>
-            <img src="/assets/add_to_cart.svg" alt="Add to cart" className={`w-4 h-4 ${isFilled ? 'brightness-0 invert' : ''}`} />
-            Add To Cart
-        </button>
-    </div>
-);
+    );
+};
 
 const TestimonialCard = ({ testimonial }) => (
     <div className="bg-white rounded-[16px] border border-gray-100 p-7 flex flex-col h-full shadow-sm">

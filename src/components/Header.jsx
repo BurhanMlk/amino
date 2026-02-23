@@ -1,10 +1,12 @@
 import { Menu, ChevronDown, X, User, Search, ShoppingCart, KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isShopOpen, setIsShopOpen] = useState(true);
+    const { openCart } = useCart();
 
     const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
     const toggleShop = () => setIsShopOpen(!isShopOpen);
@@ -42,10 +44,10 @@ const Header = () => {
                                 USA <ChevronDown className="w-4 h-4 text-[#116190]" />
                             </div>
                             <div className="flex items-center gap-5">
-                                <div className="relative cursor-pointer flex items-center group">
+                                <div className="relative cursor-pointer flex items-center group" onClick={openCart}>
                                     <ShoppingCart className="w-5 h-5 text-[#08202c] group-hover:text-[#116190] transition-colors" />
                                     <span className="absolute -top-[6px] -right-[8px] bg-[#C11010] text-white text-[9px] w-[14px] h-[14px] flex items-center justify-center rounded-full font-bold">
-                                        0
+                                        3
                                     </span>
                                 </div>
                                 <User className="w-5 h-5 text-[#08202c] cursor-pointer hover:text-[#116190] transition-colors" />
@@ -65,10 +67,10 @@ const Header = () => {
                 </div>
                 <div className="flex items-center gap-[18px]">
                     <Search className="w-[18px] h-[18px] text-[#08202c]" />
-                    <div className="relative cursor-pointer">
+                    <div className="relative cursor-pointer" onClick={openCart}>
                         <ShoppingCart className="w-[18px] h-[18px] text-[#08202c]" />
                         <span className="absolute -top-[4px] -right-[6px] bg-[#C11010] text-white text-[8px] w-[12px] h-[12px] flex items-center justify-center rounded-full font-bold">
-                            0
+                            3
                         </span>
                     </div>
                     <Menu className="w-[24px] h-[24px] text-[#116190] cursor-pointer" onClick={toggleMobileMenu} />
